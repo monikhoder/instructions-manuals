@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -22,7 +23,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('brands.create');
+        return view('admins.brands.create');
     }
 
     /**
@@ -31,15 +32,22 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:brands',
-            'slug' => 'required|string|max:255|unique:brands',
-            'logo' => 'nullable|string',
+            'name' => 'required|string|max:50|unique:brands',
+            'logo' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'nullable|string'
         ]);
+        // Generate slug from name
+        $validated['slug'] = Str::slug($validated['name']);
+        // Upload logo if provided
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $logo->move(public_path('img/brands'), $filename);
+            $validated['logo'] = 'img/brands/' . $filename;
+        }
 
         Brand::create($validated);
-
-        return redirect()->route('brands.index')
+        return redirect()->route('admin.brand')
             ->with('success', 'Brand created successfully.');
     }
 
@@ -82,9 +90,19 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        //check have brand or not
+        if(!$brand) {
+            return redirect()->route('brands.index')
+                ->with('error', 'Brand not found.');
+        }
+
+        // Delete logo file if exists
+        if($brand->logo && file_exists(public_path($brand->logo))) {
+            unlink(public_path($brand->logo));
+        }
         $brand->delete();
 
-        return redirect()->route('brands.index')
+        return redirect()->route('admin.brand')
             ->with('success', 'Brand deleted successfully.');
     }
 }
