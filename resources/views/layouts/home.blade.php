@@ -19,7 +19,7 @@
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
     @if (Route::has('login'))
          @auth
-            <a  href="{{ url('/dashboard') }}" type="button" class="btn-primary hidden md:block">Dashboard</a>
+            <a  href="{{ route('admin.dashboard')}}" type="button" class="btn-primary hidden md:block">Dashboard</a>
         @else
             <a  href="{{ route('login') }}" class="btn-primary mr-2 hidden md:block">Log in</a>
             <a  href="{{ route('register') }}" class="btn-primary-outline hidden md:block">Register</a>
@@ -45,7 +45,7 @@
         @if (Route::has('login'))
             @auth
                 <li>
-                    <a href="#" class="block md:hidden py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
+                    <a href="{{ route('admin.dashboard')}}" class="block md:hidden py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
                 </li>
         @else
                 <li>
@@ -60,8 +60,10 @@
   </div>
   </div>
 </nav>
+<div class="max-w-screen-xl mx-auto">
+    {{ $slot }}
+</div>
 
-{{ $slot }}
 
  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
