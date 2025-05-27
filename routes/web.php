@@ -14,8 +14,10 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     //brands
     Route::get('/admin/brands', [\App\Http\Controllers\BrandController::class, 'index'])->name('admin.brand');
     Route::get('/admin/brands/create', [\App\Http\Controllers\BrandController::class, 'create'])->name('admin.brand.create');
+    Route::get('/admin/brands/{brand}', [\App\Http\Controllers\BrandController::class, 'edit'])->name('admin.brand.edit');
     Route::post('/admin/brands', [\App\Http\Controllers\BrandController::class, 'store'])->name('admin.brand.store');
     Route::delete('/admin/brands/{brand}', [\App\Http\Controllers\BrandController::class, 'destroy'])->name('admin.brand.remove');
+    Route::put('/admin/brands/{brand}', [\App\Http\Controllers\BrandController::class, 'update'])->name('admin.brand.update');
 });
 
 //user routes

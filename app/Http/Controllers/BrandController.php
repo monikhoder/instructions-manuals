@@ -52,19 +52,11 @@ class BrandController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Brand $brand)
-    {
-        return view('brands.show', compact('brand'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Brand $brand)
     {
-        return view('brands.edit', compact('brand'));
+        return view('admins.brands.edit', compact('brand'));
     }
 
     /**
@@ -74,21 +66,40 @@ class BrandController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:brands,name,'.$brand->id,
-            'slug' => 'required|string|max:255|unique:brands,slug,'.$brand->id,
-            'logo' => 'nullable|string',
+            'logo' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description' => 'nullable|string'
         ]);
 
+        // Handle logo update or removal
+        if ($request->remove_logo == '1') {
+            // Delete existing logo if it exists
+            if ($brand->logo && file_exists(public_path($brand->logo))) {
+                unlink(public_path($brand->logo));
+            }
+            $validated['logo'] = null;
+        } elseif ($request->hasFile('logo')) {
+            // Delete old logo if it exists
+            if ($brand->logo && file_exists(public_path($brand->logo))) {
+                unlink(public_path($brand->logo));
+            }
+            // Upload new logo
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $logo->move(public_path('img/brands'), $filename);
+            $validated['logo'] = 'img/brands/' . $filename;
+        }
+
+
         $brand->update($validated);
 
-        return redirect()->route('brands.index')
+        return redirect()->route('admin.brand', ['page' => $request->page])
             ->with('success', 'Brand updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand)
+    public function destroy(Request $request, Brand $brand)
     {
         //check have brand or not
         if(!$brand) {
@@ -102,7 +113,7 @@ class BrandController extends Controller
         }
         $brand->delete();
 
-        return redirect()->route('admin.brand')
+        return redirect()->route('admin.brand', ['page' => $request->page])
             ->with('success', 'Brand deleted successfully.');
     }
 }

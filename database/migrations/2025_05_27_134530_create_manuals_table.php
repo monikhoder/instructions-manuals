@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('manuals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->string('title');
@@ -29,7 +29,6 @@ return new class extends Migration
             $table->index('product_id');
             $table->index('user_id');
             $table->index('status');
-
         });
     }
 
