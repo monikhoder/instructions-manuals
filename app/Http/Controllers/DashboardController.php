@@ -13,7 +13,7 @@ class DashboardController extends Controller
         if (Auth::check() && Auth::user()->isAdmin()) {
             return view('admins.dashboard');
         }
-        return redirect()->route('home')->with('error', 'Unauthorized access');
+        return redirect()->route('home');
     }
 
 }
