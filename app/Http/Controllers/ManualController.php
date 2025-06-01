@@ -41,7 +41,7 @@ class ManualController extends Controller
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:120',
             'language' => 'required|string|max:2',
-            'file_path' => 'required|file|mimes:pdf|max:2048',
+            'file_path' => 'required|file|mimes:pdf|max:10048',
             'image' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
         ]);

@@ -34,6 +34,14 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::post('/admin/manuals', [\App\Http\Controllers\ManualController::class, 'store'])->name('admin.manual.store');
     Route::delete('/admin/manuals/{manual}', [\App\Http\Controllers\ManualController::class, 'destroy'])->name('admin.manual.remove');
     Route::put('/admin/manuals/{manual}', [\App\Http\Controllers\ManualController::class, 'update'])->name('admin.manual.update');
+
+    //users
+    Route::get('/admin/users', [\App\Http\Controllers\UserManagerController::class, 'index'])->name('admin.users');
+    Route::get('/admin/users/create', [\App\Http\Controllers\UserManagerController::class, 'create'])->name('admin.users.create');
+    Route::get('/admin/users/{user}', [\App\Http\Controllers\UserManagerController::class, 'edit'])->name('admin.users.edit');
+    Route::post('/admin/users', [\App\Http\Controllers\UserManagerController::class, 'store'])->name('admin.users.store');
+    Route::delete('/admin/users/{user}', [\App\Http\Controllers\UserManagerController::class, 'destroy'])->name('admin.users.remove');
+    Route::put('/admin/users/{user}', [\App\Http\Controllers\UserManagerController::class, 'ban'])->name('admin.users.ban');
 });
 
 //user routes

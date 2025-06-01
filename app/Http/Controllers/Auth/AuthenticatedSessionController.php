@@ -25,6 +25,10 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+        if (Auth::user()->status === 'banned') {
+            Auth::guard('web')->logout();
+            return redirect('/')->with('error', 'You are banned from this site.');
+        }
 
         $request->session()->regenerate();
         if (Auth::user()->isAdmin()) {
