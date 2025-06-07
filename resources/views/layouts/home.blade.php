@@ -23,6 +23,14 @@
                     @if (Route::has('login'))
                     @auth
                         <div class="flex items-center">
+                            <div>
+                                <a href="/" class="text-blue-900  focus:ring-gray-200 font-medium rounded-lg text-sm px-1 py-1 text-center ">
+                                    <svg class="w-6 h-6 inline" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h3a3 3 0 0 0 0-6h-.025a5.56 5.56 0 0 0 .025-.5A5.5 5.5 0 0 0 7.207 9.021C7.137 9.017 7.071 9 7 9a4 4 0 1 0 0 8h2.167M12 19v-9m0 0-2 2m2-2 2 2"/>
+                                    </svg>
+                                    Upload
+                                </a>
+                            </div>
                             <div class="flex items-center ms-3">
                                 <div>
                                     <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
