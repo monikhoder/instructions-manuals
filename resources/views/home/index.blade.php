@@ -35,6 +35,7 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Brands</h1>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
             @foreach ($brands as $brand)
+                <a href="{{ route('brand.show', $brand->slug) }}">
                 <div class="bg-white rounded-lg shadow-md flex flex-col justify-center items-center p-4 border-solid border-gray-200 border-3 hover:bg-gray-100 hover:border-gray-500 hover:shadow-sm hover:shadow-gray-400 transition duration-300 aspect-square">
                     @if($brand->logo)
                     <img src="{{ asset($brand->logo) }}" alt="" class="object-fit w-full ">
@@ -42,6 +43,7 @@
                     <h2 class="text-xl text-center">{{$brand->name}}</h2>
                     @endif
                 </div>
+                </a>
             @endforeach
         </div>
     </div>

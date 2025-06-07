@@ -11,7 +11,7 @@ class HomeController extends Controller
             'search'
         );
 
-        return view('home')->with([
+        return view('home.index')->with([
            'brands' => \App\Models\Brand::select('id', 'name','logo', 'slug')
                ->latest()
                ->filter($filters)
@@ -29,10 +29,24 @@ class HomeController extends Controller
     {
         $manual = Manual::where('slug', $slug)
                    ->select('title', 'slug', 'image', 'brand_id', 'category_id', 'download_count', 'language', 'description')
-                   ->with(['brand:id,name', 'category:id,name'])
+                   ->with(['brand:id,name,slug', 'category:id,name'])
                    ->firstOrFail();
 
-               return view('manual.index', compact('manual'));
+               return view('home.manual', compact('manual'));
+    }
+    public function showBrand($slug)
+    {
+        $brand = \App\Models\Brand::where('slug', $slug)
+            ->select('id', 'name', 'logo', 'description')
+            ->firstOrFail();
+
+        return view('home.brand')->with([
+            'brand' => $brand,
+            'manuals' => Manual::where('brand_id', $brand->id)
+                ->select('title', 'slug', 'image', 'brand_id', 'category_id', 'download_count')
+                ->latest()
+                ->paginate(10),
+        ]);
     }
 }
 

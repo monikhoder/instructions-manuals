@@ -7,7 +7,7 @@
             </div>
             <div class="flex flex-col justify-center ms-5">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">{{$manual->title}}</h1>
-                <p class="text-gray-600 dark:text-gray-400 mb-2">Brand: <span class="font-semibold">{{$manual->brand->name}}</span></p>
+                <p class="text-gray-600 dark:text-gray-400 mb-2">Brand: <a href="{{route('brand.show', $manual->brand->slug)}}"> <span class="font-semibold">{{$manual->brand->name}}</span></a></p>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Category: <span class="font-semibold">{{$manual->category->name}}</span></p>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Downloads: <span class="font-semibold">{{$manual->download_count}}</span></p>
                 <div>
