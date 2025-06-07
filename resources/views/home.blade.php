@@ -20,7 +20,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
-                <input type="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50 hover:outline-none" placeholder="Search Brand, Manual..." required />
+                <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50 hover:outline-none" placeholder="Search Brand, Manual..." value="{{ request('search') }}" @if(request('search')) autofocus @endif />
                 <div class="absolute inset-y-0 end-0 flex items-center">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-none focus:outline-none font-sm rounded-lg rounded-s-none text-md px-2 py-1.5">Search</button>
                 </div>

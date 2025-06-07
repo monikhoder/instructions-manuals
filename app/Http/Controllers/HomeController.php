@@ -8,11 +8,15 @@ class HomeController extends Controller
     {
         // filter
          $filters = request()->only(
-            'search',
+            'search'
         );
 
         return view('home')->with([
-           'brands' => \App\Models\Brand::select('id', 'name','logo', 'slug')->latest()->filter($filters)->take(10)->get(),
+           'brands' => \App\Models\Brand::select('id', 'name','logo', 'slug')
+               ->latest()
+               ->filter($filters)
+               ->take(10)
+               ->get(),
            'categories' => \App\Models\Category::select('id', 'name')->get(),
            'manuals' => Manual::with(['brand:id,name', 'category:id,name'])
                ->select('title', 'slug', 'image', 'brand_id', 'category_id', 'download_count')

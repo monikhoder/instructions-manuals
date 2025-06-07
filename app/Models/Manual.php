@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Manual extends Model
 {
@@ -44,5 +45,15 @@ class Manual extends Model
         return $this->belongsTo(User::class, 'approved_by')->select(['id', 'name']);
     }
 
-    
+    public function scopeFilter(Builder $query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
+            $query->where(function($query) use ($search) {
+                $query->where('title', 'like', '%'.$search.'%')
+                      ->orWhere('description', 'like', '%'.$search.'%');
+            })
+        );
+    }
 }
+
+
