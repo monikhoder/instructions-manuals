@@ -10,17 +10,27 @@
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Brand: <span class="font-semibold">{{$manual->brand->name}}</span></p>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Category: <span class="font-semibold">{{$manual->category->name}}</span></p>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Downloads: <span class="font-semibold">{{$manual->download_count}}</span></p>
+                <div>
+                    <a href="{{route('manual.download', $manual)}}" class="btn-primary">Download</a>
+                </div>
+
             </div>
         </div>
+
         {{-- End Header --}}
 
         {{-- Manual pdf View  --}}
         <div class="mt-5">
-            <iframe
-                
-                class="w-full h-screen border border-gray-200 rounded shadow-sm dark:border-gray-700"
-                frameborder="0">
-            </iframe>
+            <div class="relative w-full" style="padding-top: 133.33%;"> {{-- 4:3 aspect ratio (portrait) --}}
+                <iframe
+                    src="{{ route('manual.view', $manual) }}#toolbar=0&navpanes=0"
+                    class="absolute top-0 left-0 w-full h-full border border-gray-200 rounded shadow-sm"
+                    frameborder="0"
+                    allow="fullscreen"
+                    allowfullscreen
+                >
+                </iframe>
+            </div>
         </div>
         {{-- End Manual pdf View  --}}
 

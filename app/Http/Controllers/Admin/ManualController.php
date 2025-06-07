@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Manual;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use BackblazeB2\Client;
-use BackblazeB2\Exceptions\B2Exception;
 
 class ManualController extends Controller
 {
@@ -20,7 +17,7 @@ class ManualController extends Controller
     public function index()
     {
          return view('admins.manuals.index', [
-            'manuals' => Manual::where('status', 'approved')->latest()->paginate(2)
+            'manuals' => Manual::where('status', 'approved')->latest()->paginate(10)
         ]);
     }
 
@@ -78,12 +75,13 @@ class ManualController extends Controller
             $validated['image'] = 'img/manuals/' . $filename;
         }
         // Upload file
-        if ($request->hasFile('file_path')) {
-            $file = $request->file('file_path');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('files/manuals'), $filename);
-            $validated['file_path'] = 'files/manuals/' . $filename;
-        }
+    if ($request->hasFile('file_path')) {
+        $file = $request->file('file_path');
+        $filename = time() . '_' . $request->title ;
+        // Store in configured local disk (storage/app/private/manuals)
+        Storage::disk('local')->put($filename, file_get_contents($file));
+        $validated['file_path'] = $filename;  // Relative storage path
+    }
 
         // Create  manual
         Manual::create($validated);
@@ -93,9 +91,43 @@ class ManualController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Manual $manual)
-    {
+    // public function show(Manual $manual)
+    // {
+    //     return view('manual', compact('manual'));
+    // }
 
+    public function download(Manual $manual)
+    {
+        //check if not authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to download manuals.');
+        }
+        if (!Storage::disk('local')->exists($manual->file_path)) {
+            abort(404);
+        }
+
+        $manual->increment('download_count');
+        return response()->download(
+            Storage::disk('local')->path($manual->file_path),
+            basename($manual->title . '.pdf'),
+        );
+    }
+
+    public function view(Manual $manual)
+    {
+        if (!Storage::disk('local')->exists($manual->file_path)) {
+            abort(404);
+        }
+        $path = Storage::disk('local')->path($manual->file_path);
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.basename($manual->file_path).'"',
+            'X-Frame-Options' => 'ALLOW-FROM '.url('/manual/'.$manual->slug),
+            'Content-Length' => filesize($path),
+            'Cache-Control' => 'public, max-age=3600'
+        ];
+
+        return response()->file($path, $headers);
     }
 
     /**
@@ -165,8 +197,8 @@ class ManualController extends Controller
             return redirect()->route('admin.manual')->with('error', 'Manual not found.');
         }
         // Delete the manual file if it exists
-        if ($manual->file_path && file_exists(public_path($manual->file_path))) {
-            unlink(public_path($manual->file_path));
+        if ($manual->file_path && Storage::disk('local')->exists($manual->file_path)) {
+            Storage::disk('local')->delete($manual->file_path);
         }
         // Delete the manual image if it exists
         if ($manual->image && file_exists(public_path($manual->image))) {

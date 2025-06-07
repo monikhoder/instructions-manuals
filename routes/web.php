@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\ManualController;
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('manual/{manual:slug}', [HomeController::class, 'showManual'])->name('manual.show');
+Route::get('manual/{manual:slug}/view', [ManualController::class, 'view'])->name('manual.view');
+Route::get('manual/{manual:slug}/download', [ManualController::class, 'download'])->name('manual.download');
 //admin routes
 Route::middleware(['auth', 'can:admin'])->group(function () {
     //Dashboard
