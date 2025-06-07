@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Manual;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use BackblazeB2\Client;
+use BackblazeB2\Exceptions\B2Exception;
+
 class ManualController extends Controller
 {
     /**
@@ -52,7 +58,7 @@ class ManualController extends Controller
         //set download count
         $validated['download_count'] = 0;
         // Set status and approval details
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && $request->user()->hasRole('admin')) {
             $validated['status'] = 'approved';
             $validated['approved_by'] = Auth::id();
             $validated['approved_at'] = now();
@@ -89,7 +95,7 @@ class ManualController extends Controller
      */
     public function show(Manual $manual)
     {
-        //
+
     }
 
     /**

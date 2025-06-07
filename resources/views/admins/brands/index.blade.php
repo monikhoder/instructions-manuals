@@ -99,7 +99,7 @@
     <nav class=" p-3">
       {{ $brands->links() }}
     </nav>
-  @endif
+    @endif
 </div>
 
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +35,10 @@ class UserManagerController extends Controller
      */
     public function store(Request $request)
     {
-        //Check if the user is admin
-        if (Auth::user()->isAdmin() === false) {
+        // Check if the authenticated user is admin
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user?->isAdmin()) {
             return redirect()->back()->with('error', 'You do not have permission to create users.');
         }
         // Validate the request
@@ -105,5 +108,5 @@ class UserManagerController extends Controller
 
         return redirect()->route('admin.users')->with('success', 'User removed successfully.');
     }
-
 }
+
