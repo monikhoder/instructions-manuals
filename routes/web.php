@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ManualController;
+use App\Http\Controllers\UserController;
 
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -39,7 +40,6 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::get('/admin/manuals', [ManualController::class, 'index'])->name('admin.manual');
     Route::get('/admin/manuals/create', [ManualController::class, 'create'])->name('admin.manual.create');
     Route::get('/admin/manuals/{manual}', [ManualController::class, 'edit'])->name('admin.manual.edit');
-    Route::post('/admin/manuals', [ManualController::class, 'store'])->name('admin.manual.store');
     Route::delete('/admin/manuals/{manual}', [ManualController::class, 'destroy'])->name('admin.manual.remove');
     Route::put('/admin/manuals/{manual}', [ManualController::class, 'update'])->name('admin.manual.update');
 
@@ -54,7 +54,9 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
 
 //user routes
 Route::middleware(['auth', 'verified'])->group(function () {
-
+    Route::get('/upload', [HomeController::class, 'userUpload'])->name('user.upload');
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/my_upload', [UserController::class, 'my_upload'])->name('user.my_upload');
 });
 
 //profile routes
@@ -62,6 +64,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/admin/manuals', [ManualController::class, 'store'])->name('admin.manual.store');
 });
 
 require __DIR__.'/auth.php';

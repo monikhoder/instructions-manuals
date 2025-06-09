@@ -21,6 +21,7 @@ class HomeController extends Controller
            'manuals' => Manual::with(['brand:id,name', 'category:id,name'])
                ->select('title', 'slug', 'image', 'brand_id', 'category_id', 'download_count')
                ->latest()
+               ->where('status', 'approved')
                ->filter($filters)
                ->paginate(10),
         ]);
@@ -47,6 +48,14 @@ class HomeController extends Controller
                 ->latest()
                 ->paginate(10),
         ]);
+    }
+    public function userUpload()
+    {
+        return view('users.upload')
+            ->with([
+                'categories' => \App\Models\Category::select('id', 'name')->get(),
+                'brands' => \App\Models\Brand::select('id', 'name')->get(),
+            ]);
     }
 }
 

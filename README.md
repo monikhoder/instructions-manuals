@@ -17,7 +17,7 @@ A Laravel-based web application that allows users to search, read, download, and
 - Manage users (add/delete/ban/unban)
 
 ## Technologies Used
-- Laravel 10 (PHP framework)
+- Laravel 12 (PHP framework)
 - MySQL (database)
 - Tailwind CSS (styling)
 - Vite (asset bundling)
@@ -59,16 +59,7 @@ npm run build
 ```bash
 php artisan serve
 ```
+## Default Admin user
+- Email : admin@example.com
+- Password : password
 
-## File Structure
-
-Key directories:
-- `app/Http/Controllers` - Application controllers
-- `app/Models` - Database models
-- `database/migrations` - Database schema
-- `resources/views` - Blade templates
-- `public/files/manuals` - Uploaded manuals storage
-- `public/img/brands` - Brand logos storage
-
-## License
-MIT

@@ -85,7 +85,11 @@ class ManualController extends Controller
 
         // Create  manual
         Manual::create($validated);
-        return redirect()->route('admin.manual')->with('success', 'Manual created successfully.');
+        // If the user is an admin
+        if (Auth::check() && $request->user()->hasRole('admin')) {
+            return redirect()->route('admin.manual')->with('success', 'Manual created successfully.');
+        }
+         return redirect()->route('home')->with('success', 'Manual submitted successfully and is pending approval.');
     }
 
     /**
@@ -99,9 +103,9 @@ class ManualController extends Controller
     public function download(Manual $manual)
     {
         //check if not authenticated
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to download manuals.');
-        }
+        // if (!Auth::check()) {
+        //     return redirect()->route('login')->with('error', 'You must be logged in to download manuals.');
+        // }
         if (!Storage::disk('local')->exists($manual->file_path)) {
             abort(404);
         }
