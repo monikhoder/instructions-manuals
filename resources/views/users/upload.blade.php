@@ -13,11 +13,11 @@
             <div class="bg-white col-span-12 shadow-md sm:rounded-lg">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold mb-4">Manual Details</h2>
-                    <x-text-input
-                        name="title"
-                        label="Manual Name"
-                        :error="$errors->first('title')"
-                    />
+                    <div class="mb-4">
+                        <x-input-label for="title" :value="__('Title')" />
+                        <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"/>
+                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                    </div>
                     <x-textarea-input
                         name="description"
                         label="Manual Description"

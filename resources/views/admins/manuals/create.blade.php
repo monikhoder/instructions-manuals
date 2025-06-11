@@ -6,11 +6,11 @@
             <div class="bg-white col-span-12 lg:col-span-6 shadow-md sm:rounded-lg">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold mb-4">Manual Details</h2>
-                    <x-text-input
-                        name="title"
-                        label="Manual Name"
-                        :error="$errors->first('title')"
-                    />
+                    <div class="mb-4">
+                        <x-input-label for="title" :value="__('Title')" />
+                        <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title', $manual->title)"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('title')" />
+                    </div>
                     <x-textarea-input
                         name="description"
                         label="Manual Description"
@@ -64,7 +64,7 @@
     </div>
     <div class="flex justify-end gap-4 mt-5">
         <a href="{{route('admin.manual')}}" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ">Back</a>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Upload Manual</button>
+         <x-primary-button>{{ __('Upload Manual') }}</x-primary-button>
     </div>
     </form>
 </x-app-layout>

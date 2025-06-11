@@ -11,7 +11,7 @@
     </div>
 {{-- end header --}}
 {{-- Manuals --}}
-    <div class="max-w-3xl flex flex-col items-center justify-center mx-auto mt-10 mb-5">
+    <div class="max-w-3xl flex flex-col items-center justify-center mx-auto mt-10 mb-5 px-4 md:px-0">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Manuals</h1>
         <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             @foreach ($manuals as $manual)

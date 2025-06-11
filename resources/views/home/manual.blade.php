@@ -1,11 +1,11 @@
 <x-home-layout>
     <div class="max-w-3xl mx-auto mb-5">
         {{-- Header --}}
-        <div class="flex justify-start">
-            <div class="mt-2 p-2 w-28 bg-white border border-gray-200 rounded shadow-sm dark:bg-gray-800 dark:border-gray-700  ">
+        <div class="flex justify-start px-4 md:px-0 ">
+            <div class="mt-4 p-2 w-28 bg-white border border-gray-200 rounded shadow-sm dark:bg-gray-800 dark:border-gray-700  ">
                 <img src="{{asset($manual->image)}}" alt="img">
             </div>
-            <div class="flex flex-col justify-center ms-5">
+            <div class="flex flex-col justify-center ms-5 mt-4">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">{{$manual->title}}</h1>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Brand: <a href="{{route('brand.show', $manual->brand->slug)}}"> <span class="font-semibold">{{$manual->brand->name}}</span></a></p>
                 <p class="text-gray-600 dark:text-gray-400 mb-2">Category: <span class="font-semibold">{{$manual->category->name}}</span></p>

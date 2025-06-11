@@ -9,9 +9,11 @@ use App\Http\Controllers\Admin\UserManagerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ManualController;
 use App\Http\Controllers\UserController;
+use Illuminate\Contracts\View\View;
 
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('manual/{manual:slug}', [HomeController::class, 'showManual'])->name('manual.show');
 Route::get('manual/{manual:slug}/view', [ManualController::class, 'view'])->name('manual.view');
 Route::get('manual/{manual:slug}/download', [ManualController::class, 'download'])->name('manual.download');
@@ -40,7 +42,7 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     Route::get('/admin/manuals', [ManualController::class, 'index'])->name('admin.manual');
     Route::get('/admin/manuals/create', [ManualController::class, 'create'])->name('admin.manual.create');
     Route::get('/admin/manuals/{manual}', [ManualController::class, 'edit'])->name('admin.manual.edit');
-    Route::delete('/admin/manuals/{manual}', [ManualController::class, 'destroy'])->name('admin.manual.remove');
+    Route::delete('admin/manuals/{manual}', [ManualController::class, 'destroy'])->name('admin.manual.remove');
     Route::put('/admin/manuals/{manual}', [ManualController::class, 'update'])->name('admin.manual.update');
 
     //users
@@ -57,6 +59,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/upload', [HomeController::class, 'userUpload'])->name('user.upload');
     Route::get('/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/my_upload', [UserController::class, 'my_upload'])->name('user.my_upload');
+    Route::delete('/my_upload/{manual}', [UserController::class, 'destroy'])->name('user.manual.remove');
+
 });
 
 //profile routes

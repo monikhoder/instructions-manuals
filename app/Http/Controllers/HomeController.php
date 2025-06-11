@@ -26,6 +26,10 @@ class HomeController extends Controller
                ->paginate(10),
         ]);
     }
+    public function about()
+    {
+        return view('home.about');
+    }
     public function showManual($slug)
     {
         $manual = Manual::where('slug', $slug)

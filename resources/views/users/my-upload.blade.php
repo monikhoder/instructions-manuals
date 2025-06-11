@@ -21,7 +21,16 @@
                                     <span class="text-sm text-gray-900 bg-blue-100 px-1 py-0.5 rounded">{{$manual->brand->name}}</span>
                                     <span class="text-sm text-gray-900 bg-blue-100 px-1 py-0.5 rounded">{{$manual->category->name}}</span>
                                 </div>
-                                <span class="text-sm text-gray-500 dark:text-gray-400"><svg class="w-4 h-4 text-gray-500 dark:text-white inline mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M13 11.15V4a1 1 0 1 0-2 0v7.15L8.78 8.374a1 1 0 1 0-1.56 1.25l4 5a1 1 0 0 0 1.56 0l4-5a1 1 0 1 0-1.56-1.25L13 11.15Z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M9.657 15.874 7.358 13H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.358l-2.3 2.874a3 3 0 0 1-4.685 0ZM17 16a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clip-rule="evenodd"/></svg>{{$manual->download_count}}</span>
+
+                                <form action="{{ route('user.manual.remove',$manual) }}" method="POST" class="flex items-center">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 text-sm" onclick="return confirm('Are you sure you want to delete this manual?')">
+                                            <svg class="w-5 h-5  " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                            </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
